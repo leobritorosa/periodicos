@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -63,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'periodico.context_processors.estatisticas_globais',
             ],
         },
     },
@@ -133,3 +134,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# URL para acessar os arquivos via navegador
+STATIC_URL = 'static/'
+
+# Local onde o Django buscará arquivos estáticos durante o desenvolvimento
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# Pasta onde os arquivos serão coletados para produção (opcional no dev)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
