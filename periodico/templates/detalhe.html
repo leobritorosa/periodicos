@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ publicacao.titulo }} - Detalhes{% endblock %}
+
+{% block content %}
+<style>
+    .detail-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .detail-header {
+        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+
+    .detail-title {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+
+    .meta-info {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+        display: flex;
+        gap: 20px;
+    }
+
+    .detail-content {
+        line-height: 1.8;
+        color: #444;
+        font-size: 1.1rem;
+        white-space: pre-line; /* Respeita as quebras de linha do banco */
+    }
+
+    .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back-button:hover { text-decoration: underline; }
+    .link-box {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #f1f9ff;
+        border-left: 4px solid #3498db;
+        border-radius: 4px;
+    }
+
+    .btn-acesso {
+        display: inline-block;
+        background-color: #3498db;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        margin-top: 10px;
+        transition: background 0.3s;
+    }
+
+    .btn-acesso:hover {
+        background-color: #2980b9;
+        color: white;
+    }
+</style>
+
+<a href="javascript:history.back()" class="back-button">← Voltar para a busca</a>
+
+<div class="detail-container">
+    <div class="detail-header">
+        <h1 class="detail-title">{{ publicacao.professor }}</h1>
+        <div class="meta-info">
+            <span><strong>ID:</strong> #{{ publicacao.pk }}</span>
+        </div>
+    </div>
+    <div class="detail-content">
+        {{ publicacao.titulo }}  
+    </div>
+    {% if publicacao.link %}
+          
+        <div class="link-box">
+            <p><strong>Link de Referência:</strong></p>
+            <a href="{{ publicacao.link }}" target="_blank" class="btn-acesso">
+                Acessar documento original ↗
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

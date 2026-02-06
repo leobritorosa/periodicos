@@ -1,0 +1,207 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    <style>
+    .search-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 60vh; /* Centraliza verticalmente na tela */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .search-title {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 2rem;
+        font-weight: 300;
+    }
+
+    .search-form {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .search-box {
+        display: flex;
+        border: 1px solid #dfe1e5;
+        border-radius: 24px;
+        padding: 10px 20px;
+        transition: box-shadow 0.3s;
+    }
+
+    .search-box:hover, .search-box:focus-within {
+        box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+        border-color: rgba(223,225,229,0);
+    }
+
+    .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        padding: 5px;
+    }
+
+    .search-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #70757a;
+    }
+
+    .results {
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .post-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .post-item a {
+        text-decoration: none;
+        color: #1a0dab;
+        font-size: 1.2rem;
+    }
+
+    .post-item a:hover { text-decoration: underline; }
+    /* Container que segura os cards */
+    .kanban-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Estilo de cada "caixa" (Card) */
+    .kanban-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-top: 5px solid #3498db; /* Cor de destaque no topo */
+        padding: 20px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 180px;
+    }
+
+    .kanban-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .kanban-card h3 {
+        font-size: 1.1rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .kanban-card p {
+        font-size: 0.9rem;
+        color: #666;
+        flex-grow: 1; /* Faz o texto ocupar o espaço central */
+    }
+
+    .card-footer {
+        margin-top: 15px;
+        font-size: 0.8rem;
+        color: #95a5a6;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+
+    .btn-detalhes {
+        display: inline-block;
+        margin-top: 10px;
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 30px;
+        padding-bottom: 50px;
+    }
+    .pagination a, .pagination span {
+        padding: 8px 16px;
+        border: 1px solid #dfe1e5;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #2c3e50;
+    }
+    .pagination .current {
+        background-color: #3498db;
+        color: white;
+        border-color: #3498db;
+    }
+</style>
+<div class="search-container">
+    <h1 class="search-title">O que você está procurando?</h1>
+    
+    <form action="{% url 'home' %}" method="GET" class="search-form">
+        <div class="search-box">
+            <input type="text" name="q" class="search-input" placeholder="Pesquisar publicações pelo título..." value="{{ request.GET.q }}">
+            <button type="submit" class="search-button">
+                🔍
+            </button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+   
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight: 300;">Resultados do Acervo</h2>
+        <div class="kanban-container">
+            {% for post in page_obj %}
+                <div class="kanban-card">
+                    <div>
+                        <h3>{{ post.professor }}</h3>
+                        <p>{{ post.titulo|truncatechars:100 }}</p>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <span>Postado em: {{ post.ano }}</span>
+                        <br>
+                        <a href="{% url 'detalhe_publicacao' post.pk %}" class="btn-detalhes">Ver detalhes →</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+<div class="pagination">
+     
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if query %}&q={{ query }}{% endif %}">&laquo; Primeira</a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Anterior</a>
+    {% endif %}
+
+    <span class="current">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Próxima</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}">Última &raquo;</a>
+    {% endif %}
+</div>
+
+{% elif request.GET.q %}
+    <div class="results">
+        <p>Nenhuma publicação encontrada para "{{ request.GET.q }}".</p>
+    </div>
+{% endif %}
+</div>
+{% endblock %}
