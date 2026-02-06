@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Corpo Docente</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'cadastrar_professor' %}" class="btn btn-success">+ Adicionar Professor</a>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% for professor in professores %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">{{ professor.nome }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ professor.grande_area }}</h6>
+                <p class="card-text">
+                    <strong>Área:</strong> {{ professor.area }}<br>
+                    <strong>E-mail:</strong> {{ professor.email }}
+                </p>
+            </div>
+            <div class="card-footer bg-white border-0 pb-3">
+                <a href="{% url 'perfil_professor' professor.pk %}" class="btn btn-outline-primary btn-sm w-100">
+                    Ver Publicações
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="text-muted fs-5">Nenhum professor cadastrado no sistema.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -19,7 +19,7 @@ class Professor(models.Model):
 
 class Publicacao(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name='publicacoes')
-    titulo = models.CharField(max_length=500)
+    titulo = models.TextField()
     ano = models.IntegerField()
     link = models.URLField()
 

@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib import admin
 from .models import Professor, Publicacao
+from django.forms import Textarea
 
 
 
@@ -33,6 +34,7 @@ class PublicacaoAdmin(admin.ModelAdmin):
             'description': 'Insira os dados técnicos e o link da fonte original.'
         }),
     )
+
 
     # Função para mostrar um link clicável na lista do admin
     def link_curto(self, obj):
