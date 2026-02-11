@@ -14,6 +14,7 @@ class Professor(models.Model):
     resumos = models.IntegerField(blank=True, null=True)
     aceitos = models.IntegerField(blank=True, null=True)
 
+
     def __str__(self):
         return self.nome
 
@@ -22,6 +23,7 @@ class Publicacao(models.Model):
     titulo = models.TextField()
     ano = models.IntegerField()
     link = models.URLField()
+    visualizacoes = models.IntegerField()
 
     def __str__(self):
         return f"{self.titulo} ({self.ano})"

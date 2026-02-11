@@ -1,14 +1,18 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, redirect
 from .models import Professor, Publicacao
-from .forms import ProfessorForm, PublicacaoForm
+from .forms import ProfessorForm, PublicacaoForm, CustomUserCreationForm, FeedbackForm
 from django.contrib.auth.decorators import login_required 
-from django.db.models import Q
+from django.db.models import Q,F
+from django.core.mail import send_mail
+from django.contrib import messages
+
+from django.contrib import messages
 
 
 def home(request):
-    query = request.GET.get('q')
-    
+  
+    query = request.GET.get('q') 
     if query:
         posts_list = Publicacao.objects.filter(Q(titulo__icontains=query) |  Q(professor__nome__icontains=query) ).order_by('-id')
     else:
@@ -29,6 +33,39 @@ def lista_professores(request):
 def detalhe_publicacao(request, pk):
     # 'pk' é a Primary Key (ID) da publicação
     publicacao = get_object_or_404(Publicacao, pk=pk)
+    Publicacao.objects.filter(pk=publicacao.id).update(visualizacoes=F('visualizacoes') + 1)  
+    # Processamento do Feedback
+    if request.method == 'POST' and 'btn_feedback' in request.POST:
+        feedback_form = FeedbackForm(request.POST)
+        if feedback_form.is_valid():
+            # Dados do formulário
+            nome = feedback_form.cleaned_data['nome']
+            email = feedback_form.cleaned_data['email']
+            mensagem = feedback_form.cleaned_data['mensagem']
+            
+            # 3. Envio do E-mail (usando a config do Gmail que fizemos)
+            try:
+                assunto = f"Feedback sobre: {publicacao.titulo[:50]}"
+                corpo = f"O usuário {nome} ({email}) enviou um feedback sobre a publicação '{publicacao.titulo}':\n\n{mensagem}"
+                
+                send_mail(
+                    assunto,
+                    corpo,
+                    'leonardo.rosa@ifma.edu.br',  # Remetente (seu Gmail config)
+                    ['leobritorosa@gmail.com'], # Destinatário (você)
+                    fail_silently=False,
+                )
+                messages.success(request, 'Obrigado! Seu feedback foi enviado com sucesso.')
+                return redirect('detalhe_publicacao', pk=pk)
+            except Exception as e:
+                messages.error(request, 'Erro ao enviar e-mail. Tente novamente mais tarde.')
+    else:
+        feedback_form = FeedbackForm()
+
+    return render(request, 'detalhe.html', {
+        'publicacao': publicacao,
+        'feedback_form': feedback_form
+    })
     return render(request, 'detalhe.html', {'publicacao': publicacao})
 
 @login_required # Somente logados acessam
@@ -60,3 +97,15 @@ def perfil_professor(request, pk):
         'publicacoes': publicacoes
     })
     
+def cadastrar_usuario(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f'Conta criada para {username}!')
+            return redirect('login') # Redireciona para o login após sucesso
+    else:
+        form = CustomUserCreationForm()
+    
+    return render(request,'cadastro_user.html',  {'form': form})

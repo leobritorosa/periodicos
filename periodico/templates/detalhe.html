@@ -4,6 +4,23 @@
 
 {% block content %}
 <style>
+   
+    /* Estilos específicos para o feedback */
+    .feedback-section {
+        margin-top: 2rem;
+        padding: 30px;
+        background: #fdfdfd;
+        border: 1px border-color #e0e0e0;
+        border-radius: 12px;
+    }
+    .feedback-title {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--accent-color);
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+    }
+
     .detail-container {
         max-width: 800px;
         margin: 2rem auto;
@@ -96,4 +113,26 @@
         </div>
     {% endif %}
 </div>
+
+<div class="detail-container" style="margin-top: 1rem;">
+    <div class="feedback-section">
+        <h3 class="feedback-title">📩 Enviar Feedback</h3>
+        <p class="text-muted" style="font-size: 0.9rem;">Encontrou algum erro ou tem uma sugestão para esta publicação?</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {% load crispy_forms_tags %}
+            
+            {{ feedback_form|crispy }}
+            
+            <div class="mt-3">
+                <button type="submit" name="btn_feedback" class="btn-acesso" style="border: none; width: 100%; cursor: pointer;">
+                    Enviar Sugestão
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
+
+

@@ -15,7 +15,7 @@ class ProfessorAdmin(admin.ModelAdmin):
 class PublicacaoAdmin(admin.ModelAdmin):
     # Colunas que aparecerão na lista
 
-    list_display = ('titulo', 'professor', 'ano', 'link_curto')
+    list_display = ('titulo', 'professor', 'ano', 'link_curto','visualizacoes')
     
     # Filtros na lateral direita
     list_filter = ('professor', 'ano')

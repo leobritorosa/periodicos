@@ -1,6 +1,7 @@
 from django import forms
 from .models import Professor, Publicacao
-
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 class ProfessorForm(forms.ModelForm):
     class Meta:
         model = Professor
@@ -26,3 +27,15 @@ class PublicacaoForm(forms.ModelForm):
                 field.widget = forms.Textarea(attrs={'rows': 3, 'class': 'form-control form-control-lg'})
             else:
                 field.widget.attrs.update({'class': 'form-control form-control-lg'})
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('email',)
+        
+class FeedbackForm(forms.Form):
+    nome = forms.CharField(max_length=100, label="Seu Nome")
+    email = forms.EmailField(label="Seu E-mail")
+    mensagem = forms.CharField(widget=forms.Textarea, label="Como podemos melhorar?")
