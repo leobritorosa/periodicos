@@ -19,11 +19,7 @@
                         </a>
                     </p>
                 </div>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'cadastrar_publicacao' %}" class="btn btn-outline-success btn-sm w-100 mt-3">
-                        + Nova Publicação
-                    </a>
-                {% endif %}
+              
             </div>
         </div>
     </div>
@@ -39,7 +35,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th class="ps-4">Título da Publicação</th>
-                                <th style="width: 100px;">Ano</th>
+                                <th style="width: 100px;">Visualizações</th>
                                 <th class="text-center" style="width: 120px;">Link</th>
                             </tr>
                         </thead>
@@ -49,11 +45,13 @@
                                 <td class="ps-4">
                                     <span class="fw-medium text-dark">{{ pub.titulo }}</span>
                                 </td>
-                                <td><span class="badge bg-secondary">{{ pub.ano }}</span></td>
+                                <td><span class="badge bg-secondary">{{ pub.visualizacoes }}</span></td>
                                 <td class="text-center">
+                                    {% if pub.link %}
                                     <a href="{{ pub.link }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                         Ver Artigo
                                     </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% empty %}

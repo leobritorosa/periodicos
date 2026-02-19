@@ -154,7 +154,7 @@
     
     <form action="{% url 'home' %}" method="GET" class="search-form">
         <div class="search-box">
-            <input type="text" name="q" class="search-input" placeholder="Pesquisar publicações pelo título..." value="{{ request.GET.q }}">
+            <input type="text" name="q" class="search-input" placeholder="Pesquisar publicações pelo título, autor e ano..." value="{{ request.GET.q }}">
             <button type="submit" class="search-button">
                 🔍
             </button>
@@ -176,7 +176,7 @@
                     </div>
                     
                     <div class="card-footer">
-                        <span>Postado em: {{ post.ano }}</span>
+                        <span>Visualizações : {{ post.visualizacoes }}</span>
                         <br>
                         <a href="{% url 'detalhe_publicacao' post.pk %}" class="btn-detalhes">Ver detalhes →</a>
                     </div>
@@ -205,6 +205,34 @@
         <p>Nenhuma publicação encontrada para "{{ request.GET.q }}".</p>
     </div>
 {% endif %}
+<hr style="border: 0; border-top: 1px solid #eee; margin: 40px auto; max-width: 800px;">
+        
+        <section style="max-width: 800px; margin: 0 auto 50px auto; padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #444;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #2c3e50; font-weight: bold; font-size: 2rem;"><em>Nexus IFMA: Ciência e Transformação</em></h2>
+                <p style="font-size: 1.1rem;">
+                    O <strong>Nexus IFMA</strong> é o Repositório Institucional destinado a organizar, preservar e dar visibilidade à produção científica do Instituto Federal do Maranhão. Em um único ambiente de <em>acesso aberto</em>, a plataforma reúne artigos, livros e trabalhos acadêmicos desenvolvidos por nossos docentes, reafirmando o compromisso da instituição com a transparência, a inovação e o desenvolvimento regional.
+                </p>
+            </div>
+
+            <div style="background-color: #f9f9f9; padding: 25px; border-left: 5px solid #3498db; border-radius: 4px;">
+                <h3 style="color: #2c3e50; margin-top: 0;"><em>A Origem do Nome</em></h3>
+                <p>
+                    A escolha do nome <strong>Nexus</strong> não foi casual: o termo remete à ideia de <strong>conexão</strong>. Ele simboliza o elo essencial entre os pesquisadores, a instituição e a sociedade, funcionando como o ponto de encontro onde o conhecimento produzido se conecta com quem busca inovação e aprendizado.
+                </p>
+            </div>
+
+            <p style="text-align: center; margin-top: 30px; font-weight: 600; color: #2c3e50;">
+                Explore o conhecimento que transforma realidades e descubra o potencial da pesquisa científica produzida no IFMA.
+            </p>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="{% url 'home' %}" style="text-decoration: none; color: #3498db; font-weight: bold; border: 1px solid #3498db; padding: 10px 20px; border-radius: 24px; transition: all 0.3s;">
+                    ← Voltar para a Página Inicial
+                </a>
+            </div>
+        </section>
 </div>
+
 
 {% endblock %}

@@ -151,7 +151,7 @@
 
     <header>
         <nav>
-            <a href="{% url 'lista_professores' %}" class="logo">📚 Acervo Digital</a>
+            <a href="{% url 'home'%}" class="logo">📚 Nexos IFMA - Acervo Digital</a>
             <ul class="nav-links">
                 <div class="navbar-nav ms-auto">
             {% if user.is_authenticated %}
@@ -160,12 +160,9 @@
                     {% csrf_token %}
                     <button type="submit" class="btn btn-link nav-link">Sair</button>
                 </form>
-            {% else %}
-                <a class="nav-item nav-link" href="{% url 'login' %}">Entrar</a>
-                <a class="nav-item btn btn-primary ms-lg-2" href="{% url 'cadastro' %}">Criar Conta</a>
-            {% endif %}
+                  {% endif %}
         </div>
-                <li><a href="{% url 'lista_professores' %}">Início</a></li>
+                <li><a href="{% url 'home'%}">Início</a></li>
                 <li><a href="https://montecastelo.ifma.edu.br/biblioteca/" target="_blank">Biblioteca</a></li>
 
                 <li><a href="{% url 'lista_professores' %}">Professores</a></li>
@@ -179,11 +176,9 @@
             <div class="sidebar-card">
                 <h5 style="color: var(--primary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 5px; margin-bottom: 15px;">Navegação</h5>
                 <ul style="list-style: none;">
-                    <li style="margin-bottom: 10px;"><a href="{% url 'lista_professores' %}" style="color: var(--text-dark); text-decoration: none;">🏠 Início</a></li>
+                    <li style="margin-bottom: 10px;"><a href="{% url 'home'%}" style="color: var(--text-dark); text-decoration: none;">🏠 Início</a></li>
                     
-                    {% if user.is_authenticated %}
-                        <li style="margin-bottom: 10px;"><a href="{% url 'cadastrar_professor' %}" style="color: var(--text-dark); text-decoration: none;">➕ Novo Professor</a></li>
-                    {% endif %}
+                 
                 </ul>
             </div>
             {% block sidebar_left %}

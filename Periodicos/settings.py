@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'periodico',
+    'crispy_forms',
+    'crispy_bootstrap5',
     
 ]
 
@@ -70,7 +72,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Periodicos.wsgi.application'
-
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -145,3 +148,12 @@ STATICFILES_DIRS = [
 
 # Pasta onde os arquivos serão coletados para produção (opcional no dev)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+LOGIN_REDIRECT_URL = 'lista_professores'  # Nome da URL da sua página inicial
+LOGOUT_REDIRECT_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'leonardo.rosa@ifma.edu.br'
+EMAIL_HOST_PASSWORD = 'hikw juyl ieal mebe' # Não é a sua senha comum!

@@ -51,8 +51,8 @@ def detalhe_publicacao(request, pk):
                 send_mail(
                     assunto,
                     corpo,
-                    'leonardo.rosa@ifma.edu.br',  # Remetente (seu Gmail config)
-                    ['leobritorosa@gmail.com'], # Destinatário (você)
+                    'ronaldo.serra@ifma.edu.br',  # Remetente (seu Gmail config)
+                    ['ronaldo.serra@ifma.edu.br'], # Destinatário (você)
                     fail_silently=False,
                 )
                 messages.success(request, 'Obrigado! Seu feedback foi enviado com sucesso.')

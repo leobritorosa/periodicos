@@ -26,4 +26,4 @@ class Publicacao(models.Model):
     visualizacoes = models.IntegerField()
 
     def __str__(self):
-        return f"{self.titulo} ({self.ano})"
+        return f"{self.titulo}"
